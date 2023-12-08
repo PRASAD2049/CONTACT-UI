@@ -12,12 +12,13 @@ const useHttp = function() {
 
         setError(null);
         try {
+
             const response = await fetch(requestConfig.url, {
                method: requestConfig.method,
                headers: requestConfig.headers,
                body: JSON.stringify(requestConfig.body)
             });
-console.log('response', response);
+
             if (!response.ok) {
                 throw new Error('Something went wrong')
             }
