@@ -74,8 +74,6 @@ function ContactAddFormOld() {
             alias: formInput.alias || ''
         };
 
-        console.log(formData);
-
         setFormInput({
             contactName: '',
             alias: ''

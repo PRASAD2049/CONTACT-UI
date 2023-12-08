@@ -48,8 +48,6 @@ function ContactAddForm(props) {
         }, handleReponse);
 
 
-        console.log(formData)
-
         contactNameReset();
         aliasReset();
 

@@ -106,7 +106,6 @@ function Login(props) {
 
         event.preventDefault();
 
-        console.log('1', emailState);
         const formData = {
             email: emailState.value || '',
             password: passwordState.value || ''
