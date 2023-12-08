@@ -1,0 +1,4 @@
+.form {max-width: 500px; margin: 0 auto;}
+.form-group {padding: 10px 0;}
+.form-group label {margin-bottom: 10px;display: inline-block;}
+.form-control {width: 100%; border: 1px solid #000; height: 32px;border-radius: 5px;}
