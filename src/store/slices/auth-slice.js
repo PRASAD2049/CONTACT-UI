@@ -18,6 +18,8 @@ const authSlice = createSlice({
 
             localStorage.removeItem('isLoggedIn');
 
+            localStorage.removeItem('token');
+
             return {
                 isLoggedIn: false
             }

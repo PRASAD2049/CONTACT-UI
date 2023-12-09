@@ -20,47 +20,9 @@ const ContactList = () => {
 
     const { isLoading, error, sendRequest: fetchContactList } = useHttp();
 
-    // async function fetchContactList() {
-
-    //     setIsLoading(true);
-
-    //     setError(null);
-
-    //     // fetch('assets/data/contact-list.json')
-    //     // .then((response) => response.json())
-    //     // .then((response) => {
-    //     //     console.log('contact List', response);
-
-    //     //     setContactList(response);
-    //     // })
-
-    //     //2nd way
-    //     try {
-    //         const response = await fetch('assets/data/contact-list.json');
-
-    //         if (!response.ok) {
-    //             throw new Error('Something went wrong')
-    //         }
-
-    //         const data = await response.json();
-
-    //         setContactList(data.contacts[0].contacts);
-
-
-    //     } catch (error) {
-
-    //         setError(error.message);
-
-    //     }
-
-    //     setIsLoading(false);
-
-
-    // }
-
     function handleClick(contact) {
 
-        const path = `/contact/${contact.id}`;
+        const path = `/contact/${contact._id}`;
 
         navigate(path);
         
@@ -71,12 +33,15 @@ const ContactList = () => {
 
         const receiveContacts = (data) => {
 
-            setContactList(data.contacts[0].contacts);
+            setContactList(data.response);
 
         }
 
         fetchContactList({
-            url: '/assets/data/contact-list.json'
+            url: 'contact',
+            headers: {
+                "Content-Type": "application/json"
+            }
         }, receiveContacts);
 
     }, [fetchContactList])
@@ -104,13 +69,14 @@ const ContactList = () => {
                             >
                                 <TableCell component="th" scope="row">
                                     {row.name}
+                                    {row.alias}
                                     <br />
-                                    <Chip label={row.entity.name} />
+                                    {/* <Chip label={row.entity.name} /> */}
 
                                 </TableCell>
                                 <TableCell>
                                     {
-                                        row.contactInfo.accountMapInfo.map((account,index) => {
+                                        row.contactInfo && row.contactInfo.accountMapInfo.map((account,index) => {
 
                                             return (
                                                 <div key={index}>
@@ -127,7 +93,7 @@ const ContactList = () => {
                                 <TableCell>
 
                                     {
-                                        row.contactInfo.accountMapInfo.map((account) => {
+                                        row.contactInfo && row.contactInfo.accountMapInfo.map((account) => {
 
                                             return (
                                                 <div>

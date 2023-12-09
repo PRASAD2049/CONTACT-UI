@@ -3,15 +3,33 @@ import {useDispatch} from 'react-redux';
 import { authActions } from '../../../store/slices/auth-slice';
 // import AuthContext from "../../../store/auth-context";
 import { Button } from "@mui/material";
+import useHttp from '../../../hooks/use-http';
 
 const Logout = function () {
 
     // const ctx = useContext(AuthContext);
 
+    const { isLoading, error, sendRequest: logoutRequest } = useHttp();
+
     const dispatch = useDispatch();
     
-    const logoutHandler = () => {
+
+    const handleReponse = (data) => {
+
         dispatch(authActions.logout());
+
+    }
+
+    const logoutHandler = () => {
+
+        logoutRequest({
+            url: 'auth/logout',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }, handleReponse);
+
+        
     }
 
     return <div>

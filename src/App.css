@@ -39,3 +39,17 @@
 
 
 .align-right {text-align: right;}
+.w-100 {width: 100%;}
+.flex-spacer {
+  flex: 1;
+}
+.d-flex {
+  display: flex;
+}
+.col-3 {
+  flex: 0 0 33.33%;
+}
+
+.col-6 {
+  flex: 0 0 50%;
+}

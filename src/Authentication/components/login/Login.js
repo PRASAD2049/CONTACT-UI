@@ -96,8 +96,10 @@ function Login(props) {
     }
 
     const handleReponse = (data) => {
+        console.log('data', data);
+        localStorage.setItem('token', data.token);
+        dispatch(authActions.login());
 
-        dispatch(authActions.login())
 
     }
 
@@ -112,7 +114,7 @@ function Login(props) {
         };
 
         loginRequest({
-            url: 'http://localhost:3001/api/auth/login',
+            url: 'auth/login',
             method: 'POST',
             body: formData,
             headers: {

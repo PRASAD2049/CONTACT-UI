@@ -46,7 +46,7 @@ const useInput = (validatorFn) => {
 
     // const [isTouched, setIsTouched] = useState();
 
-    const isValid = validatorFn(inputState.value);
+    const isValid = validatorFn && validatorFn(inputState.value);
 
     const hasError = !isValid && inputState.isTouched;
 

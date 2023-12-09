@@ -1,30 +1,42 @@
 import './ContactAddForm.css';
 import useInput from '../../../hooks/use-input';
 import useHttp from '../../../hooks/use-http';
+import { MenuItem, Select } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 function ContactAddForm(props) {
 
+    const navigate = useNavigate();
     const { isLoading, error, sendRequest: contactAddRequest } = useHttp();
 
     console.log('dafaultdata', props.defaultData);
 
-    const { 
+    const {
+        value: contactTypeValue,
+        isValid: isContactTypeValid,
+        hasError: hasContactTypeError,
+        valueChangeHandler: contactTypeChangeHandler,
+        inputBlurHandler: contactTypeBlurHandler,
+        reset: contactTypeReset } = useInput();
+
+
+    const {
         value: contactNameValue,
-        isValid: isContactNameValid, 
-        hasError: hasContactNameError, 
+        isValid: isContactNameValid,
+        hasError: hasContactNameError,
         valueChangeHandler: contactNameChangeHandler,
         inputBlurHandler: contactNameBlurHandler,
         reset: contactNameReset } = useInput((value) => value && value.trim() !== '');
 
-    const { 
-        value: aliasValue, 
-        isValid: isAliasValid, 
-        hasError: hasAliasError, 
-        valueChangeHandler: aliasChangeHandler, 
+    const {
+        value: aliasValue,
+        isValid: isAliasValid,
+        hasError: hasAliasError,
+        valueChangeHandler: aliasChangeHandler,
         inputBlurHandler: aliasBlurHandler,
         reset: aliasReset } = useInput((value) => value && value.trim() !== '');
 
-            
+
     let isFormValid = false;
 
     if (isContactNameValid && isAliasValid) {
@@ -35,15 +47,17 @@ function ContactAddForm(props) {
         event.preventDefault();
 
         const formData = {
-            contactName: contactNameValue || '',
+            type: contactTypeValue || '',
+            name: contactNameValue || '',
             alias: aliasValue || ''
         };
 
-
-
         contactAddRequest({
-            url: 'http://localhost:3001/contact/add',
+            url: 'contact',
             method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: formData
         }, handleReponse);
 
@@ -55,12 +69,28 @@ function ContactAddForm(props) {
 
     const handleReponse = (data) => {
 
-        console.log('handleResp')
+        const path = `/contact/summary`;
+
+        navigate(path);
 
     }
 
     return (
         <form className='form' onSubmit={submitHandler}>
+
+            <div className={(hasContactNameError) ? 'form-group form-error' : 'form-group'}>
+                <label>Contact Type</label>
+                <div>
+                <Select className='w-100'
+                    value={contactTypeValue}
+                    label="Contact Type"
+                    onChange={contactTypeChangeHandler}
+                >
+                    <MenuItem value={'Beneficiary'}>Beneficiary</MenuItem>
+                    <MenuItem value={'Employee'}>Employee</MenuItem>
+                </Select>
+                </div>
+            </div>
             <div className={(hasContactNameError) ? 'form-group form-error' : 'form-group'}>
                 <label>Contact Name</label>
                 <input type="text" id="contactName" value={contactNameValue} onChange={contactNameChangeHandler} onBlur={contactNameBlurHandler} className='form-control' />
@@ -68,7 +98,7 @@ function ContactAddForm(props) {
             </div>
             <div className='form-group'>
                 <label>Alias</label>
-                <input type="text" id="alias" value={aliasValue} onChange={aliasChangeHandler} onBlur={aliasBlurHandler}  className='form-control' />
+                <input type="text" id="alias" value={aliasValue} onChange={aliasChangeHandler} onBlur={aliasBlurHandler} className='form-control' />
                 {hasAliasError && <p>Alias must not be empty.</p>}
             </div>
 

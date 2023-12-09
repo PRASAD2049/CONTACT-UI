@@ -2,6 +2,8 @@ import { useCallback, useState } from "react";
 
 const useHttp = function() {
 
+    const ENV = process.env;
+
     const [isLoading, setIsLoading] = useState(false);
 
     const [error, setError] = useState(null);
@@ -13,9 +15,14 @@ const useHttp = function() {
         setError(null);
         try {
 
-            const response = await fetch(requestConfig.url, {
+            const headers = {
+                token: `${localStorage.getItem('token')}`,
+                ...requestConfig.headers,
+            }
+
+            const response = await fetch(`${ENV.REACT_APP_API_URI}${requestConfig.url}`, {
                method: requestConfig.method,
-               headers: requestConfig.headers,
+               headers: headers,
                body: JSON.stringify(requestConfig.body)
             });
 
