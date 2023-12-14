@@ -1,8 +1,10 @@
 import { useReducer, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 import { authActions } from '../../../store/slices/auth-slice';
 import { useDispatch } from 'react-redux';
 import useHttp from '../../../hooks/use-http';
+
 
 const emailReducer = (state, action) => {
 
@@ -52,6 +54,9 @@ const passwordReducer = (state, action) => {
 
 function Login(props) {
 
+    const navigate = useNavigate();
+
+
     const [emailState, dispatchEmail] = useReducer(emailReducer, { value: '', isValid: false })
     const [passwordState, dispatchPassword] = useReducer(passwordReducer, { value: '', isValid: false })
 
@@ -95,10 +100,13 @@ function Login(props) {
 
     }
 
-    const handleReponse = (data) => {
+    const handleResponse = (data) => {
         console.log('data', data);
         localStorage.setItem('token', data.token);
+        console.log('error', error);
         dispatch(authActions.login());
+
+        navigate('/contact/summary')
 
 
     }
@@ -120,7 +128,7 @@ function Login(props) {
             headers: {
                 "Content-Type": "application/json"
             }
-        }, handleReponse);
+        }, handleResponse);
 
 
     }

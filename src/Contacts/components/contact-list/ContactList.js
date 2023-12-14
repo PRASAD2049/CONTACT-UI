@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Chip from '@mui/material/Chip';
+// import Chip from '@mui/material/Chip';
 import useHttp from "../../../hooks/use-http";
 
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -68,10 +68,10 @@ const ContactList = () => {
                                 key={row.name}
                             >
                                 <TableCell component="th" scope="row">
-                                    {row.name}
+                                    {row.name} <br />
                                     {row.alias}
                                     <br />
-                                    {/* <Chip label={row.entity.name} /> */}
+                                    {/* <Chip label={row.entity && row.entity.name} /> */}
 
                                 </TableCell>
                                 <TableCell>
